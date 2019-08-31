@@ -9,8 +9,11 @@ ForEach ($pidobj in $pids) {
 }
 
 Stop-VM -Name MBE
-Stop-Process -Id $PID
 
 If ($shutdown) {
     Stop-Computer
+}
+else
+{
+    Stop-Process -Id $PID
 }
