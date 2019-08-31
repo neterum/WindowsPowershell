@@ -21,7 +21,7 @@ start-vm -name $vm
 
 # Get the NIC object and store IP and Subnet
 
-$nic = gwmi -computer .  -class "win32_networkadapterconfiguration" | Where-Object -FilterScript { $_.Description -like '*Ethernet Adapter #2*'}
+$nic = gwmi -computer .  -class "win32_networkadapterconfiguration" | Where-Object -FilterScript { $_.Description -like '*Hyper-V Virtual Ethernet Adapter'}
 Write-Host $nic.Description
 $ip = [IPAddress] $nic.ipaddress[0]
 $subnet = [IPAddress] $nic.IPSubnet[0]
@@ -86,4 +86,7 @@ If ($foundIp -ne $null) {
     Start-Process -FilePath "C:\Program Files\PuTTY\putty.exe" -ArgumentList "-ssh $username@$foundIp"
 
     Stop-Process -id $PID
+}
+else {
+    Write-Output "No ping response from any Guest OS"
 }
